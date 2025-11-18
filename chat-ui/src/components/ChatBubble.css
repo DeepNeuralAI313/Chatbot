@@ -1,0 +1,126 @@
+.chat-bubble-container {
+  display: flex;
+  margin: 12px 0;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-bubble-container.user {
+  justify-content: flex-end;
+}
+
+.chat-bubble-container.assistant {
+  justify-content: flex-start;
+}
+
+.chat-bubble {
+  max-width: 70%;
+  padding: 12px 18px;
+  border-radius: 20px;
+  word-wrap: break-word;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.chat-bubble.user {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-bubble.assistant {
+  background: #f1f3f4;
+  color: #202124;
+  border-bottom-left-radius: 4px;
+  border: 1px solid #e8eaed;
+}
+
+.message-content {
+  margin-bottom: 6px;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.formatted-paragraph {
+  margin: 0 0 12px 0;
+  line-height: 1.6;
+}
+
+.formatted-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.formatted-list-item {
+  display: flex;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.formatted-list-item:last-child {
+  margin-bottom: 0;
+}
+
+.list-number {
+  font-weight: 600;
+  margin-right: 8px;
+  color: #667eea;
+  flex-shrink: 0;
+}
+
+.list-title {
+  font-weight: 600;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.list-text {
+  flex: 1;
+}
+
+.message-content strong {
+  font-weight: 600;
+  color: inherit;
+}
+
+.message-time {
+  font-size: 11px;
+  opacity: 0.7;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.human-connect-btn {
+  margin: 12px 0 8px 0;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.human-connect-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5568d3 0%, #6a3d8f 100%);
+}
+
+.human-connect-btn:active {
+  transform: translateY(0);
+}
