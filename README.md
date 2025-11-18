@@ -418,4 +418,3 @@ For issues or questions, please check:
 
 ---
 
-**Made with ❤️ using FastAPI and React**
