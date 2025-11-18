@@ -33,10 +33,14 @@ env/
 .env.local
 .env.*.local
 
-# Database
-*.db
-*.sqlite
-*.sqlite3
+# Database (exclude main database but allow embeddings)
+backend/database/*.db
+backend/database/*.sqlite
+backend/database/*.sqlite3
+
+# Allow ChromaDB embeddings
+!backend/data/embeddings_db/**/*.sqlite3
+!backend/data/embeddings_db/**/*.db
 
 # ChromaDB / Embeddings (optional - keep if you want to save embeddings)
 # backend/data/embeddings_db/
