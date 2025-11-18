@@ -1,11 +1,27 @@
+"""
+RAG (Retrieval-Augmented Generation) Service
+
+This service handles:
+- Text chunking and processing
+- Embedding generation and storage
+- Semantic search using ChromaDB
+
+Embeddings are stored persistently in: backend/data/embeddings_db/
+This allows embeddings to be reused across server restarts without regenerating them.
+"""
+
 import os
 import chromadb
 from pathlib import Path
 from typing import List, Tuple
 from .embedding_service import get_embedding
 
-# Initialize ChromaDB client
-chroma_client = chromadb.Client()
+# Set up persistent storage directory
+STORAGE_DIR = Path(__file__).parent.parent / "data" / "embeddings_db"
+STORAGE_DIR.mkdir(parents=True, exist_ok=True)
+
+# Initialize ChromaDB client with persistent storage
+chroma_client = chromadb.PersistentClient(path=str(STORAGE_DIR))
 
 # Global collection variable
 collection = None
@@ -63,15 +79,16 @@ def initialize_rag():
     chunks = chunk_text(article_text)
     print(f"Created {len(chunks)} chunks from article")
     
-    # Create or get collection
+    # Create or get collection (will load from persistent storage if exists)
     try:
         collection = chroma_client.get_collection(name="iptv_knowledge")
-        print("Loaded existing collection")
+        print(f"✅ Loaded existing embeddings from persistent storage: {STORAGE_DIR}")
+        print(f"   Collection contains {collection.count()} embeddings")
     except:
         collection = chroma_client.create_collection(name="iptv_knowledge")
         
         # Generate embeddings and add to collection
-        print("Generating embeddings for chunks...")
+        print("🔄 Generating embeddings for chunks...")
         for i, chunk in enumerate(chunks):
             embedding = get_embedding(chunk)
             if embedding:
@@ -80,8 +97,12 @@ def initialize_rag():
                     documents=[chunk],
                     ids=[f"chunk_{i}"]
                 )
+            
+            # Progress indicator
+            if (i + 1) % 5 == 0:
+                print(f"   Processed {i + 1}/{len(chunks)} chunks...")
         
-        print(f"Added {len(chunks)} chunks to collection")
+        print(f"✅ Saved {len(chunks)} embeddings to persistent storage: {STORAGE_DIR}")
     
     return collection
 
